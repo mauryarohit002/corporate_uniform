@@ -277,7 +277,7 @@ class sku extends my_controller{
                     $trans_data['sdt_amt']		        = $value['sdt_amt'];
                     $trans_data['sdt_delete_status']	= false;
                     $trans_data['sdt_updated_by'] 		= $_SESSION['user_id'];
-                    $trans_data['sdt_updated_at'] 		= date('Y-m-d H:i:s');
+                    $trans_data['sdt_updated_at'] 		= date('Y-m-d H:i:s'); 
                 // trans_data
                 
                 $prev_data = $this->db_operations->get_record($this->sub_menu.'_design_trans', ['sdt_id' => $value['sdt_id']]);
