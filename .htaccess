@@ -1,0 +1,9 @@
+Header always set Access-Control-Allow-Origin "https://vps.dnsstuff.net.in"
+Header always set Access-Control-Allow-Headers "api-access-key, authorization, content-type, set-cookie" 
+Header always set Access-Control-Allow-Credentials "true" 
+Header always set Access-Control-Allow-Methods "GET, POST, DELETE, PUT" 
+RewriteEngine on
+RewriteCond $1 !^(index\.php|resources|robots\.txt)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?/$1 [L,QSA]
