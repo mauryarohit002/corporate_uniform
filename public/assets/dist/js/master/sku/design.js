@@ -100,13 +100,13 @@ const calculate_design_charges = () => {
     if (isNaN(amt) || amt == "") amt = 0;
     $('#design_amt').val(amt.toFixed(2));
 }
-const add_design_transaction = () => {
+const add_design_transaction = () => { 
     notifier('fabric_id');
     notifier('design_id');
     notifier('color_id');
     notifier('width_id');
-    notifier('mtr');
-    let check = true;
+    notifier('design_mtr');
+    let check = true; 
     if ($("#fabric_id").val() == null) {
         notifier("fabric_id", "Required");
         check = false;
@@ -123,12 +123,12 @@ const add_design_transaction = () => {
         notifier("width_id", "Required");
         check = false;
     }
-    if ($("#mtr").val() == "" || $("#mtr").val() == 0) {
-        notifier("mtr", "Required");
+    if ($("#design_mtr").val() == "" || $("#design_mtr").val() == 0) {
+        notifier("design_mtr", "Required");
         check = false;
         } else {
-        if ($("#mtr").val() < 0) {
-            notifier("mtr", "Invalid mtr");
+        if ($("#design_mtr").val() < 0) {
+            notifier("design_mtr", "Invalid mtr");
             check = false;
         }
     }
@@ -167,23 +167,28 @@ const add_design_transaction = () => {
                     design_data[index].sdt_design_id    = data["sdt_design_id"];
                     design_data[index].design_name      = data["design_name"];
                     design_data[index].design_image     = data["design_image"];
+                    design_data[index].sdt_color_id    = data["sdt_color_id"];
+                    design_data[index].color_name      = data["color_name"];
+                    design_data[index].sdt_width_id    = data["sdt_width_id"];
+                    design_data[index].width_name      = data["width_name"];
                     design_data[index].sdt_mtr          = data["sdt_mtr"];
                 
-                    $(`#design_name_${sdt_id}`).html(data["design_name"]);
                     $(`#fabric_name_${sdt_id}`).html(data["fabric_name"]);
-                    $(`#mtr_${sdt_id}`).html(data["sdt_mtr"]);
+                    $(`#design_name_${sdt_id}`).html(data["design_name"]);
+                    $(`#color_name_${sdt_id}`).html(data["color_name"]);
+                    $(`#width_name_${sdt_id}`).html(data["width_name"]);
+                    $(`#design_mtr_${sdt_id}`).html(data["sdt_mtr"]);
                 
-                    toastr.success(`${$("#design_id :selected").text()}`, "DESIGN UPDATED TO LIST.", { closeButton: true, progressBar: true });
+                    toastr.success(`${$("#design_id :selected").text()}`, "FABRIC CODE UPDATED TO LIST.", { closeButton: true, progressBar: true });
                 }
 
                 $("#sdt_id").val(0);
                 $("#fabric_id").val(null).trigger("change");
                 $("#fabric_id").select2("open");
                 $("#design_id").val(null).trigger("change");
-                $("#design_id").select2("open");
-                $("#design_rate").val(0);
+                $("#color_id").val(null).trigger("change");
+                $("#width_id").val(null).trigger("change");
                 $("#design_mtr").val(0);
-                $("#design_amt").val(0);
                 $("#design_count").html(design_data.length);
                 calculate_master();
             }
@@ -209,21 +214,26 @@ const add_wrapper_design = (data, append = false) => {
                 <table class="table table-sm text-uppercase" style="font-size: 0.8rem;">
                     <tbody>
                         <tr>
-                            <th width="30%">design</th>
+                            <th width="30%">fabric</th>
+                            <td width="70%">: <span id="fabricn_name_${data['sdt_id']}">${data['fabric_name']}</span></td>
+                        </tr>
+                        <tr>
+                            <th width="30%">fabric code</th>
                             <td width="70%">: <span id="design_name_${data['sdt_id']}">${data['design_name']}</span></td>
                         </tr>
                         <tr>
-                            <th width="30%">rate</th>
-                            <td width="70%">: <span id="design_rate_${data['sdt_id']}">${data['sdt_rate']}</span></td>
+                            <th width="30%">color</th>
+                            <td width="70%">: <span id="color_name_${data['sdt_id']}">${data['color_name']}</span></td>
+                        </tr>
+                         <tr>
+                            <th width="30%">width</th>
+                            <td width="70%">: <span id="width_name_${data['sdt_id']}">${data['width_name']}</span></td>
                         </tr>
                         <tr>
                             <th width="30%">mtr</th>
                             <td width="70%">: <span id="design_mtr_${data['sdt_id']}">${data['sdt_mtr']}</span></td>
                         </tr>
-                        <tr>
-                            <th width="30%">amt</th>
-                            <td width="70%">: <span id="design_amt_${data['sdt_id']}">${data['sdt_amt']}</span></td>
-                        </tr>
+                       
                         <tr>
                             <td width="30%">
                                 <a 
@@ -252,11 +262,13 @@ const add_wrapper_design = (data, append = false) => {
 const edit_design_transaction = (sdt_id) => {
     const find = design_data.find((value) => value["sdt_id"] == sdt_id);
     $("#sdt_id").val(find['sdt_id']);
-    find['sdt_bm_id'] > 0 && $("#bm_id").html(`<option value="${find['sdt_bm_id']}">${find['design_name']}</option>`);
+   
+    find['sdt_fabric_id'] > 0 && $("#fabric_id").html(`<option value="${find['sdt_fabric_id']}">${find['fabric_name']}</option>`);
+    find['sdt_color_id'] > 0 && $("#color_id").html(`<option value="${find['sdt_color_id']}">${find['color_name']}</option>`);
+    find['sdt_width_id'] > 0 && $("#width_id").html(`<option value="${find['sdt_width_id']}">${find['width_name']}</option>`);
+
     find['sdt_design_id'] > 0 && $("#design_id").html(`<option value="${find['sdt_design_id']}">${find['design_name']}</option>`);
-    $("#design_rate").val(find['sdt_rate']);
     $("#design_mtr").val(find['sdt_mtr']);
-    $("#design_amt").val(find['sdt_amt']);
     if(find['design_image'] != ''){
       $(`#design_image`).html(
         `<img 

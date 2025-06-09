@@ -32,6 +32,14 @@
                                                 <table class="table table-sm bg-primary text-uppercase">
                                                     <tbody>
                                                         <tr>
+                                                            <th width="40%">company</th>
+                                                            <td width="60%">: <?php echo $value['customer_name']; ?></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th width="40%">department</th>
+                                                            <td width="60%">: <?php echo $value['department_name']; ?></td>
+                                                        </tr>
+                                                        <tr>
                                                             <th width="40%">apparel</th>
                                                             <td width="60%">: <?php echo $value['apparel_name']; ?></td>
                                                         </tr>

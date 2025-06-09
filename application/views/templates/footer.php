@@ -52,7 +52,7 @@
 <!-- Custom JS files. Note: Keep the sequence of following custom files -->
 <script type="text/javascript">
 	const loc 			= window.location;
-	const base_url   	= loc.protocol + "//" + loc.host + "/" + loc.pathname.split('/')[1] + "/" + loc.pathname.split('/')[2];
+	const base_url   	= loc.protocol + "//" + loc.host + "/" + loc.pathname.split('/')[1];
 	const TO_PAY 		= "<?php echo TO_PAY; ?>";
 	const TO_RECEIVE 	= "<?php echo TO_RECEIVE; ?>";
 	const NOIMAGE 		= "<?php echo assets(NOIMAGE); ?>";

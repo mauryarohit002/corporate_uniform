@@ -156,6 +156,8 @@ class sku extends my_controller{
 			// master_data
 				$master_data['sku_uuid'] 		= trim($post_data['sku_uuid']);
 				$master_data['sku_apparel_id'] 	= isset($post_data['sku_apparel_id']) ? $post_data['sku_apparel_id'] : 0;
+				$master_data['sku_customer_id'] 	= isset($post_data['sku_customer_id']) ? $post_data['sku_customer_id'] : 0;
+				$master_data['sku_department_id'] 	= isset($post_data['sku_department_id']) ? $post_data['sku_department_id'] : 0;
 				$master_data['sku_name'] 		= trim($post_data['sku_name']);
 				$master_data['sku_mrp'] 		= trim($post_data['sku_mrp']);
 				$master_data['sku_piece'] 		= trim($post_data['sku_piece']);
@@ -210,30 +212,22 @@ class sku extends my_controller{
 		public function add_design_transaction(){
             $post_data  = $this->input->post();
             $id         = $post_data['id'];
-            
 			// echo "<pre>"; print_r($post_data); exit;
-
-            if(!isset($post_data['design_rate']) || (isset($post_data['design_rate']) && empty($post_data['design_rate']))){
-                return ['msg' => '1. Rate is required.'];
-            }else{
-                if($post_data['design_rate'] <= 0) return ['msg' => '1. Invalid Rate.'];	
-            }
-
+            
 			if(!isset($post_data['design_mtr']) || (isset($post_data['design_mtr']) && empty($post_data['design_mtr']))){
-                return ['msg' => '1. Rate is required.'];
+                return ['msg' => '1. Mtr is required.'];
             }else{
                 if($post_data['design_mtr'] <= 0) return ['msg' => '1. Invalid Mtr.'];	
             }
-
             
             // echo "<pre>"; print_r($post_data); exit;
             $trans_data 					= [];
 			$trans_data['sdt_sku_uuid'] 	= trim($post_data['sku_uuid']);
-            $trans_data['sdt_bm_id'] 		= isset($post_data['bm_id']) ? $post_data['bm_id'] : 0;
+            $trans_data['sdt_fabric_id'] 	= isset($post_data['fabric_id']) ? $post_data['fabric_id'] : 0;
             $trans_data['sdt_design_id'] 	= isset($post_data['design_id']) ? $post_data['design_id'] : 0;
-            $trans_data['sdt_rate'] 		= trim($post_data['design_rate']);
+            $trans_data['sdt_color_id'] 	= isset($post_data['color_id']) ? $post_data['color_id'] : 0;
+            $trans_data['sdt_width_id'] 	= isset($post_data['width_id']) ? $post_data['width_id'] : 0;
             $trans_data['sdt_mtr'] 			= trim($post_data['design_mtr']);
-            $trans_data['sdt_amt'] 			= trim($post_data['design_amt']);
             $trans_data['sdt_delete_status']= true;
             $trans_data['sdt_created_by'] 	= $_SESSION['user_id'];
             $trans_data['sdt_updated_by'] 	= $_SESSION['user_id'];
@@ -249,12 +243,15 @@ class sku extends my_controller{
                 $trans_data['sdt_sku_id'] 	= $id;
                 $trans_data['sdt_id']    	= $post_data['sdt_id'];
             }
+            $trans_data['fabric_name'] = $this->model->get_name('fabric', $trans_data['sdt_fabric_id']);
             $trans_data['design_name'] = $this->model->get_name('design', $trans_data['sdt_design_id']);
+            $trans_data['color_name'] = $this->model->get_name('color', $trans_data['sdt_color_id']);
+            $trans_data['width_name'] = $this->model->get_name('width', $trans_data['sdt_width_id']);
             $trans_data['design_image']= $post_data['design_image'];
 
             return ['status' => TRUE, 'data' => $trans_data,  'msg' => 'Design Transaction added successfully.'];
         }
-		public function add_edit_design_trans($post_data, $id){
+		public function add_edit_design_trans($post_data, $id){ 
             $trans_db_data = $this->db_operations->get_record($this->sub_menu.'_design_trans', ['sdt_sku_id' => $id, 'sdt_delete_status' => false]);
 			$ids  = $this->get_ids($post_data['design_data'], 'sdt_id');
 
@@ -270,11 +267,11 @@ class sku extends my_controller{
 				// trans_data
                     $trans_data							= [];
                     $trans_data['sdt_sku_id']			= $id;
-                    $trans_data['sdt_bm_id'] 			= $value['sdt_bm_id'];
+                    $trans_data['sdt_fabric_id'] 		= $value['sdt_fabric_id'];
                     $trans_data['sdt_design_id'] 		= $value['sdt_design_id'];
+                    $trans_data['sdt_color_id'] 		= $value['sdt_color_id'];
+                    $trans_data['sdt_width_id'] 		= $value['sdt_width_id'];
                     $trans_data['sdt_mtr']		        = $value['sdt_mtr'];
-                    $trans_data['sdt_rate'] 		    = $value['sdt_rate'];
-                    $trans_data['sdt_amt']		        = $value['sdt_amt'];
                     $trans_data['sdt_delete_status']	= false;
                     $trans_data['sdt_updated_by'] 		= $_SESSION['user_id'];
                     $trans_data['sdt_updated_at'] 		= date('Y-m-d H:i:s'); 

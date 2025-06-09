@@ -1,6 +1,6 @@
 const loc = window.location;
 const base_url =
-  loc.protocol + "//" + loc.host + "/" + loc.pathname.split("/")[1]+ "/" + loc.pathname.split("/")[2];
+  loc.protocol + "//" + loc.host + "/" + loc.pathname.split("/")[1];
 const SUPPLIER = "SUPPLIER";
 const CUSTOMER = "CUSTOMER";
 const GENERAL = "GENERAL";

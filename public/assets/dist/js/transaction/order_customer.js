@@ -1,7 +1,7 @@
 const customer_popup = (args) => {
   const { field } = args;
   let title = `<div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                  <p class="text-uppercase text-center font-weight-bold">add client </p>
+                  <p class="text-uppercase text-center font-weight-bold">add Company </p>
                 </div>`;
   let data = `<form class="form-horizontal" id="customer_form" onsubmit="add_customer(${field})">              
                   <div class="row">

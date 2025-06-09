@@ -79,6 +79,7 @@ $db['default']['username'] 		= 'root';
 $db['default']['password'] 		= '';
 $db['default']['database'] 		= 'corporate_uniform';
 $db['default']['dbdriver'] 		= 'mysqli';
+$db['default']['port'] 			= 3307;
 $db['default']['dbprefix'] 		= '';
 $db['default']['pconnect'] 		= FALSE;
 $db['default']['db_debug'] 		= (ENVIRONMENT !== 'production');
