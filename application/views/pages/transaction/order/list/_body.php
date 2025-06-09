@@ -24,6 +24,7 @@
                         ><i class="text-info fa fa-info-circle"></i></span></td>
                     <td width="3%"><?php $this->load->view('pages/'.$menu.'/'.$sub_menu.'/list/_actions', ['value' => $value]); ?></td>
                 </tr>
+                
     <?php 
             endforeach;
         else: 
