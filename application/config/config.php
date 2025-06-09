@@ -23,8 +23,8 @@ date_default_timezone_set('Asia/Kolkata');
 | a PHP script and you can easily do that on your own.
 |
 */
-// $config['base_url'] = 'https://jbdd.in/corporate_uniform/';
-$config['base_url'] = 'http://localhost/office/corporate_uniform/';
+$config['base_url'] = 'http://localhost:8080/corporate_uniform/';
+// $config['base_url'] = 'http://localhost/office/corporate_uniform/';
 
 /*
 |--------------------------------------------------------------------------
@@ -403,7 +403,7 @@ $config['sess_regenerate_destroy'] 	= FALSE;
 */
 $config['cookie_prefix']	= '';
 $config['cookie_domain']	= '';
-$config['cookie_path']		= '/office/corporate_uniform/';
+$config['cookie_path']		= '/corporate_uniform/';
 $config['cookie_secure']	= FALSE;
 $config['cookie_httponly'] 	= FALSE;
 

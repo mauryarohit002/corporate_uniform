@@ -4,12 +4,11 @@ require_once APPPATH . 'core/MY_Model.php';
 class sku_model extends my_model{
 	public function __construct(){ parent::__construct('master', 'sku'); }
 	public function isMasterExist($id){
-		// $data = $this->db->query("SELECT pt_id FROM purchase_trans WHERE pt_sku_id = $id LIMIT 1")->result_array();
-		// if(!empty($data)) return true;
-
+		$data = $this->db->query("SELECT qt_id FROM quotation_trans WHERE qt_sku_id = $id AND qt_delete_status=0 LIMIT 1")->result_array();
+		if(!empty($data)) return true; 
 		return false;
 	}
-    public function isDesignTransExist($id){
+    public function isDesignTransExist($id){ 
 		// $data = $this->db->query("SELECT pt_id FROM purchase_trans WHERE pt_sku_id = $id LIMIT 1")->result_array();
 		// if(!empty($data)) return true;
 
@@ -55,6 +54,17 @@ class sku_model extends my_model{
             $record['filter']['_sku_name']['value'] = $_GET['_sku_name'];
             $record['filter']['_sku_name']['text'] = $_GET['_sku_name'];
         }
+       
+        if(isset($_GET['_customer_name']) && !empty($_GET['_customer_name'])){
+            $subsql .=" AND customer.customer_name LIKE '%".$_GET['_customer_name']."%'";
+            $record['filter']['_customer_name']['value'] = $_GET['_customer_name'];
+            $record['filter']['_customer_name']['text'] = $_GET['_customer_name'];
+        }
+        if(isset($_GET['_department_name']) && !empty($_GET['_department_name'])){
+            $subsql .=" AND department.department_name LIKE '%".$_GET['_department_name']."%'";
+            $record['filter']['_department_name']['value'] = $_GET['_department_name'];
+            $record['filter']['_department_name']['text'] = $_GET['_department_name'];
+        }
         if(isset($_GET['_apparel_name']) && !empty($_GET['_apparel_name'])){
             $subsql .=" AND apparel.apparel_name LIKE '%".$_GET['_apparel_name']."%'";
             $record['filter']['_apparel_name']['value'] = $_GET['_apparel_name'];
@@ -72,9 +82,13 @@ class sku_model extends my_model{
         }
         $query="SELECT sku.*,
                 UPPER(apparel.apparel_name) as apparel_name,
+                IFNULL(UPPER(customer.customer_name), '') as customer_name,
+                IFNULL(UPPER(department.department_name), '') as department_name,
                 IFNULL(UPPER(color.color_name), '') as color_name
                 FROM sku_master sku
                 INNER JOIN apparel_master apparel ON(apparel.apparel_id = sku.sku_apparel_id)
+                LEFT JOIN customer_master customer ON(customer.customer_id = sku.sku_customer_id)
+                LEFT JOIN department_master department ON(department.department_id = sku.sku_department_id)
                 LEFT JOIN color_master color ON(color.color_id = sku.sku_color_id)
                 WHERE sku.sku_delete_status = 0
                 $subsql
@@ -91,6 +105,7 @@ class sku_model extends my_model{
                 $record['data'][$key]['isExist'] = $this->isMasterExist($value['sku_id']);
             }
         }
+         // echo "<pre>"; print_r($record); exit;
         return $record;
     }
     public function get_data_for_add(){
@@ -100,9 +115,13 @@ class sku_model extends my_model{
     public function get_data_for_edit($id){
         $query="SELECT sku.*,
                 UPPER(apparel.apparel_name) as apparel_name,
-                IFNULL(UPPER(color.color_name), 'SELECT') as color_name
+                IFNULL(UPPER(customer.customer_name), '') as customer_name,
+                IFNULL(UPPER(department.department_name), '') as department_name,
+                IFNULL(UPPER(color.color_name), '') as color_name
                 FROM sku_master sku
                 INNER JOIN apparel_master apparel ON(apparel.apparel_id = sku.sku_apparel_id)
+                LEFT JOIN customer_master customer ON(customer.customer_id = sku.sku_customer_id)
+                LEFT JOIN department_master department ON(department.department_id = sku.sku_department_id)
                 LEFT JOIN color_master color ON(color.color_id = sku.sku_color_id)
                 WHERE sku.sku_id = $id
                 AND sku.sku_delete_status = 0";
@@ -115,14 +134,25 @@ class sku_model extends my_model{
     }
     public function get_transaction($sku_id){  
         $query="SELECT sdt.*,
+                UPPER(fabric.fabric_name) as fabric_name,
+                UPPER(color.color_name) as color_name,
+                UPPER(width.width_name) as width_name,
                 UPPER(design.design_name) as design_name,
                 design.design_image
                 FROM sku_design_trans sdt
                 INNER JOIN design_master design ON(design.design_id = sdt.sdt_design_id)
+                LEFT JOIN fabric_master fabric ON(fabric.fabric_id = sdt.sdt_fabric_id)
+                LEFT JOIN color_master color ON(color.color_id = sdt.sdt_color_id)
+                LEFT JOIN width_master width ON(width.width_id = sdt.sdt_width_id)
                 WHERE sdt.sdt_sku_id = $sku_id
                 AND sdt.sdt_delete_status = 0
                 ORDER BY sdt.sdt_id DESC";
         $record['design_trans'] = $this->db->query($query)->result_array();
+        if(!empty($record['design_trans'])){
+            foreach ($record['design_trans'] as $key => $value) {
+                $record['design_trans'][$key]['isExist'] = $this->isDesignTransExist($value['sdt_id']);
+            }
+        }
 
         $query="SELECT sdyt.*,
                 UPPER(dying.dying_name) as dying_name

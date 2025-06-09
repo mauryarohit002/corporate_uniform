@@ -5,6 +5,18 @@ $(document).ready(function () {
         param: true,
     }));
 
+    $("#sku_customer_id").select2(select2_default({
+        url: `master/customer/get_select2/_id`,
+        placeholder: "SELECT",
+        param: true,
+    }));
+
+    $("#sku_department_id").select2(select2_default({
+        url: `master/department/get_select2/_id`,
+        placeholder: "SELECT",
+        param: true,
+    }));
+
     $("#sku_color_id").select2(select2_default({
         url: `master/color/get_select2/_id`,
         placeholder: "SELECT",
@@ -133,7 +145,6 @@ const calculate_master = () => {
     let total_amt = 0;
 
     let total_design_mtr = 0;
-    let total_design_amt = 0;
     let total_dying_amt = 0;
     let total_karigar_amt = 0;
     let total_embroidery_amt = 0;
@@ -152,8 +163,6 @@ const calculate_master = () => {
         total_design_mtr = parseFloat(total_design_mtr) + parseFloat(mtr);
         if (isNaN(total_design_mtr) || total_design_mtr == "") total_design_mtr = 0;
 
-        total_design_amt = parseFloat(total_design_amt) + parseFloat(amt);
-        if (isNaN(total_design_amt) || total_design_amt == "") total_design_amt = 0;
     });
 
     dying_data.forEach((value) => {
@@ -189,13 +198,12 @@ const calculate_master = () => {
     });
 
     $('#total_design_mtr').html(total_design_mtr.toFixed(2));
-    $('#total_design_amt').html(total_design_amt.toFixed(2));
     $('#total_dying_amt').html(total_dying_amt.toFixed(2));
     $('#total_karigar_amt').html(total_karigar_amt.toFixed(2));
     $('#total_embroidery_amt').html(total_embroidery_amt.toFixed(2));
     $('#total_other_amt').html(total_other_amt.toFixed(2));
 
-    total_amt = parseFloat(total_design_amt) + parseFloat(total_dying_amt) + parseFloat(total_karigar_amt) + parseFloat(total_embroidery_amt) + parseFloat(total_other_amt);
+    total_amt = parseFloat(total_dying_amt) + parseFloat(total_karigar_amt) + parseFloat(total_embroidery_amt) + parseFloat(total_other_amt);
     if (isNaN(total_amt) || total_amt == "") total_amt = 0;
     $('#total_amt').html(total_amt.toFixed(2));
     $('#sku_rate').val(total_amt.toFixed(2));
@@ -204,29 +212,40 @@ const calculate_master = () => {
     if (isNaN(total_mtr) || total_mtr == "") total_mtr = 0;
     $('#total_mtr').html(total_mtr.toFixed(2));
     $('#sku_mtr').val(total_mtr.toFixed(2));
-
     $(".master_block_btn").prop("disabled", false);
   
-    if (total_amt <= 0) {
-        toastr.error("Rate not defined.", "", {
-            closeButton: true,
-            progressBar: true,
-            preventDuplicates: true,
-        });
-        $(".master_block_btn").prop("disabled", true);
-    }
-}
+    // if (total_amt <= 0) { 
+    //     toastr.error("Rate not defined.", "", {
+    //         closeButton: true,
+    //         progressBar: true,
+    //         preventDuplicates: true,
+    //     });
+    //     $(".master_block_btn").prop("disabled", true);
+    // }
+} 
 const add_edit = () => {
     event.preventDefault();
+    notifier('sku_customer_id');
+    notifier('sku_department_id');
     notifier('sku_apparel_id');
     notifier('sku_name');
     notifier('sku_piece');
     let check = true;
     
+    if ($(`#sku_customer_id`).val() == null) {
+      notifier(`sku_customer_id`, "Required");
+      check = false;
+    }
+
+    if ($(`#sku_department_id`).val() == null) {
+      notifier(`sku_department_id`, "Required");
+      check = false;
+    }
     if ($(`#sku_apparel_id`).val() == null) {
       notifier(`sku_apparel_id`, "Required");
       check = false;
     }
+
     
     if ($(`#sku_name`).val() == "") {
       notifier(`sku_name`, "Required");
@@ -246,8 +265,8 @@ const add_edit = () => {
       });
       return;
     }
-    if ($(`#total_amt`).html() <= 0 || $(`#total_amt`).html() == "") {
-        toastr.error("Total amt is required.", "", {
+    if ($(`#total_mtr`).html() <= 0 || $(`#total_mtr`).html() == "") {
+        toastr.error("Total Mtr is required.", "", {
             closeButton: true,
             progressBar: true,
             preventDuplicates: true,
@@ -277,6 +296,8 @@ const add_edit = () => {
             } else {
             }
             
+            notifier('sku_customer_id');
+            notifier('sku_department_id');
             notifier('sku_apparel_id');
             notifier('sku_name');
             notifier('sku_piece');

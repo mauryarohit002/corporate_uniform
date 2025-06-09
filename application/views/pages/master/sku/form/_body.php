@@ -4,7 +4,7 @@
     $uuid       = empty($master_data) ? $sku_uuid : $master_data[0]['sku_uuid'];
     $tabindex   = 1;
 ?>
-<div class="row">
+<div class="row"> 
     <div class="col-12 col-sm-12 col-md-4 col-lg-4">
         <div class="card">
             <div class="card-header text-uppercase">sku image</div>
@@ -136,8 +136,42 @@
     <div class="col-12 col-sm-12 col-md-4 col-lg-4">
         <div class="card">
             <div class="card-header text-uppercase">general detail</div>
-            <div class="card-body p-0">
+            <div class="card-body p-0"> 
                 <div class="form-group floating-form d-flex flex-wrap mt-4">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 floating-label">
+                        <p class="text-uppercase">company Name <span class="text-danger">*</span></p>
+                        <select 
+                            class="form-control floating-select" 
+                            id="sku_customer_id" 
+                            name="sku_customer_id" 
+                            placeholder=" " 
+                            tabindex="<?php echo $tabindex++; ?>"
+                            onkeyup="validate_dropdown(this, true)">
+                            <?php if(!empty($master_data) && !empty($master_data[0]['sku_customer_id'])): ?>
+                                <option value="<?php echo $master_data[0]['sku_customer_id'] ?>" selected>
+                                    <?php echo $master_data[0]['customer_name']; ?> 
+                                </option>
+                            <?php endif; ?>
+                        </select>
+                        <small class="form-text text-muted helper-text" id="sku_customer_id_msg"></small>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 floating-label">
+                        <p class="text-uppercase">department<span class="text-danger">*</span></p>
+                        <select 
+                            class="form-control floating-select" 
+                            id="sku_department_id" 
+                            name="sku_department_id" 
+                            placeholder=" " 
+                            tabindex="<?php echo $tabindex++; ?>"
+                            onkeyup="validate_dropdown(this, true)">
+                            <?php if(!empty($master_data) && !empty($master_data[0]['sku_department_id'])): ?>
+                                <option value="<?php echo $master_data[0]['sku_department_id'] ?>" selected>
+                                    <?php echo $master_data[0]['department_name']; ?> 
+                                </option>
+                            <?php endif; ?>
+                        </select>
+                        <small class="form-text text-muted helper-text" id="sku_department_id_msg"></small>
+                    </div>
                     <div class="col-12 col-sm-12 col-md-12 col-lg-6 floating-label">
                         <p class="text-uppercase">apparel <span class="text-danger">*</span></p>
                         <select 
