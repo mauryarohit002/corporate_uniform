@@ -7,8 +7,6 @@ $(document).ready(function () {
         param: true,
       })
     ).on("change", (event) => get_customer_data(event.target.value)); 
-
- 
 });
 // core_functions
 
@@ -251,6 +249,11 @@ const add_edit = () => {
           //   }
           //   window.location.reload();
           // });
+          
+          setTimeout(() => {
+            window.location.reload();
+          }, RELOAD_TIME);
+
           remove_transaction_notifier();
           toastr.success("", msg, {
             closeButton: true,

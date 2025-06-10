@@ -9,22 +9,12 @@
                     <td width="3%"><?php echo $key+1; ?></td>
                     <td width="5%"><?php echo $value['om_entry_no']; ?></td>
                     <td width="6%"><?php echo date('d-m-Y', strtotime($value['om_entry_date'])); ?></td>
-                    <td width="15%"><?php echo $value['billing_name']; ?></td>
+                    <td width="15%"><?php echo $value['customer_name']; ?></td>
                     <td width="6%"><?php echo $value['om_total_qty']; ?></td>
-                    <td width="6%"><?php echo $value['om_total_mtr']; ?></td>
                     <td width="6%"><?php echo $value['om_total_amt']; ?></td>
-                    <td width="6%"><?php echo $value['om_advance_amt']; ?></td>
-                    <td width="6%"><?php echo $value['om_balance_amt']; ?></td>
-                    <td width="2%">
-                        <span 
-                            style="cursor: pointer;"
-                            data-toggle="tooltip" 
-                            data-placement="left" 
-                            title="VIEW"
-                        ><i class="text-info fa fa-info-circle"></i></span></td>
+                   
                     <td width="3%"><?php $this->load->view('pages/'.$menu.'/'.$sub_menu.'/list/_actions', ['value' => $value]); ?></td>
                 </tr>
-                
     <?php 
             endforeach;
         else: 

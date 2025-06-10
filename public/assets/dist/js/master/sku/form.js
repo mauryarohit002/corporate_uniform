@@ -145,6 +145,7 @@ const calculate_master = () => {
     let total_amt = 0;
 
     let total_design_mtr = 0;
+    let total_design_amt = 0;
     let total_dying_amt = 0;
     let total_karigar_amt = 0;
     let total_embroidery_amt = 0;
@@ -162,6 +163,10 @@ const calculate_master = () => {
 
         total_design_mtr = parseFloat(total_design_mtr) + parseFloat(mtr);
         if (isNaN(total_design_mtr) || total_design_mtr == "") total_design_mtr = 0;
+
+        total_design_amt = parseFloat(total_design_amt) + parseFloat(amt);
+        if (isNaN(total_design_amt) || total_design_amt == "") total_design_amt = 0;
+
 
     });
 
@@ -198,12 +203,13 @@ const calculate_master = () => {
     });
 
     $('#total_design_mtr').html(total_design_mtr.toFixed(2));
+    $('#total_design_amt').html(total_design_amt.toFixed(2));
     $('#total_dying_amt').html(total_dying_amt.toFixed(2));
     $('#total_karigar_amt').html(total_karigar_amt.toFixed(2));
     $('#total_embroidery_amt').html(total_embroidery_amt.toFixed(2));
     $('#total_other_amt').html(total_other_amt.toFixed(2));
 
-    total_amt = parseFloat(total_dying_amt) + parseFloat(total_karigar_amt) + parseFloat(total_embroidery_amt) + parseFloat(total_other_amt);
+    total_amt = parseFloat(total_design_amt) + parseFloat(total_dying_amt) + parseFloat(total_karigar_amt) + parseFloat(total_embroidery_amt) + parseFloat(total_other_amt);
     if (isNaN(total_amt) || total_amt == "") total_amt = 0;
     $('#total_amt').html(total_amt.toFixed(2));
     $('#sku_rate').val(total_amt.toFixed(2));
@@ -214,14 +220,14 @@ const calculate_master = () => {
     $('#sku_mtr').val(total_mtr.toFixed(2));
     $(".master_block_btn").prop("disabled", false);
   
-    // if (total_amt <= 0) { 
-    //     toastr.error("Rate not defined.", "", {
-    //         closeButton: true,
-    //         progressBar: true,
-    //         preventDuplicates: true,
-    //     });
-    //     $(".master_block_btn").prop("disabled", true);
-    // }
+    if (total_amt <= 0) { 
+        toastr.error("Rate not defined.", "", {
+            closeButton: true,
+            progressBar: true,
+            preventDuplicates: true,
+        });
+        $(".master_block_btn").prop("disabled", true);
+    }
 } 
 const add_edit = () => {
     event.preventDefault();
@@ -265,8 +271,8 @@ const add_edit = () => {
       });
       return;
     }
-    if ($(`#total_mtr`).html() <= 0 || $(`#total_mtr`).html() == "") {
-        toastr.error("Total Mtr is required.", "", {
+    if ($(`#total_amt`).html() <= 0 || $(`#total_amt`).html() == "") {
+        toastr.error("Total amt is required.", "", {
             closeButton: true,
             progressBar: true,
             preventDuplicates: true,

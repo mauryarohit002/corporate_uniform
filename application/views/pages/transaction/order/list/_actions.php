@@ -3,39 +3,7 @@
         <div class="menuToggle" id="menu_toggle_<?php echo $value['om_id']; ?>" onclick="toggle_menuu(this)"></div>
         <div class="menuu">
             <ul>
-                <li>
-                    <a 
-                        type="button" 
-                        class="btn btn-sm"
-                        target="_blank"
-                        data-toggle="tooltip" 
-                        data-placement="bottom" 
-                        title="QRCODE"
-                        href="<?php echo base_url($menu.'/'.$sub_menu.'?action=qrcode&clause=om.om_id&id='.$value['id']) ?>"
-                    ><i class="text-info fa fa-qrcode"></i></a>                                        
-                </li>
-                <li>
-                    <a 
-                        type="button" 
-                        class="btn btn-sm"
-                        target="_blank"
-                        data-toggle="tooltip" 
-                        data-placement="bottom" 
-                        title="BILL"
-                        href="<?php echo base_url($menu.'/'.$sub_menu.'?action=print&id='.$value['id']) ?>"
-                    ><i class="text-info fa fa-print"></i></a>                                        
-                </li>
-                <li>
-                    <a 
-                        type="button" 
-                        class="btn btn-sm"
-                        target="_blank"
-                        data-toggle="tooltip" 
-                        data-placement="bottom" 
-                        title="MEASUREMENT"
-                        href="<?php echo base_url($menu.'/'.$sub_menu.'/measurement_print/'.$value['om_id']) ?>"
-                    ><i class="text-info fa fa-print"></i></a>                                        
-                </li>
+              
                 <?php if(in_array('read', $action_data)): ?>
                     <li>
                         <a 

@@ -8,10 +8,8 @@
 
         public function __construct($menu, $sub_menu) {
            parent::__construct();
-
             $this->menu     = $menu;
             $this->sub_menu = $sub_menu;
-
             $this->load->model($menu.'/'.$sub_menu.'_model', 'model');
             $this->load->library('pagination');
 		    $this->config->load('extra');
@@ -157,6 +155,7 @@
                     $this->load->view('pages/'.$this->menu.'/'.$this->sub_menu.'/pdf/bill', $record);
                     return;	
                 }
+
                 $config 				= array();
                 $config 				= $this->config->item('pagination');	
                 $config['total_rows'] 	= $this->model->get_list(true);

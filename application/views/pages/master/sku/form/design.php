@@ -119,6 +119,21 @@
             ></select>
             <small class="form-text text-muted helper-text" id="width_id_msg"></small>
         </div>
+         <div class="col-12 col-sm-12 col-md-6 col-lg-6 floating-label">
+            <input 
+                type="number" 
+                class="form-control floating-input" 
+                id="design_rate" 
+                name="design_rate" 
+                value="0" 
+                placeholder=" " 
+                autocomplete="off" 
+                tabindex="<?php echo $tabindex++; ?>"
+                onkeyup="calculate_design_charges()"
+            />   
+            <label class="text-uppercase">rate</label>
+            <small class="form-text text-muted helper-text" id="design_rate_msg"></small>
+        </div>
         <div class="col-12 col-sm-12 col-md-6 col-lg-6 floating-label">
             <input 
                 type="number" 
@@ -134,7 +149,21 @@
             <label class="text-uppercase">mtr</label>
             <small class="form-text text-muted helper-text" id="design_mtr_msg"></small>
         </div>
-            
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 floating-label">
+            <input 
+                type="number" 
+                class="form-control floating-input" 
+                id="design_amt" 
+                name="design_amt" 
+                value="0" 
+                placeholder=" " 
+                autocomplete="off" 
+                tabindex="<?php echo $tabindex++; ?>"
+                readonly
+            />   
+            <label class="text-uppercase">amt</label>
+            <small class="form-text text-muted helper-text" id="design_amt_msg"></small>
+        </div>        
         <div class="col-12 col-sm-12 col-md-6 col-lg-6">
             <button 
                 type="button" 
