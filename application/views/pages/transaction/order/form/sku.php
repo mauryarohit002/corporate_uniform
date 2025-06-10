@@ -16,21 +16,9 @@
                         <small class="form-text text-muted helper-text" id="sku_id_msg"></small>
                     </div>
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 d-flex flex pl-0">
-                        <div class="floating-label" style="width: 100%;">
-                            <input 
-                                type="number" 
-                                class="form-control floating-input" 
-                                id="sku_mtr" 
-                                name="sku_mtr" 
-                                value="0" 
-                                placeholder="" 
-                                readonly
-                            />  
-                            <label class="text-uppercase">mtr</label>
-                            <small class="form-text text-muted helper-text" id="sku_mtr_msg"></small>
-                        </div>
+                        
                         <div>
-                            <button
+                           <!--  <button
                                 type="button"
                                 class="btn btn-md btn-primary"
                                 id="sku_mtr_btn"
@@ -38,10 +26,10 @@
                                 data-placement="bottom" 
                                 title="FABRIC MTR" 
                                 onclick="sku_mtr_popup()"
-                            ><i class="text-info fa fa-google-wallet"></i></button>
+                            ><i class="text-info fa fa-google-wallet"></i></button> -->
                         </div>
                     </div>
-                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 floating-label d-none">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 floating-label">
                         <p class="text-uppercase">qty&nbsp;<span class="text-danger">*</span></p> 
                         <input 
                             type="number" 
@@ -50,26 +38,26 @@
                             name="sku_qty" 
                             value="1" 
                             placeholder="" 
-                            autocomplete="off" 
+                            autocomplete="off"
+                            onkeyup="calculate_sku_transaction()"  
                             tabindex= "<?php echo $tabindex++; ?>"
-                            readonly
                         />
                         <small class="form-text text-muted helper-text" id="sku_qty_msg"></small>
                     </div>
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 floating-label">
-                        <p class="text-uppercase">mrp&nbsp;<span class="text-danger">*</span></p> 
+                        <p class="text-uppercase">rate&nbsp;<span class="text-danger">*</span></p> 
                         <input 
                             type="number" 
                             class="form-control floating-input" 
-                            id="sku_mrp" 
-                            name="sku_mrp" 
+                            id="sku_rate" 
+                            name="sku_rate" 
                             value="0" 
                             placeholder="" 
                             autocomplete="off" 
                             onkeyup="calculate_sku_transaction(), validate_textfield(this)" 
                             tabindex= "<?php echo $tabindex++; ?>"
                         />
-                        <small class="form-text text-muted helper-text" id="sku_mrp_msg"></small>
+                        <small class="form-text text-muted helper-text" id="sku_rate_msg"></small>
                     </div>
                 </div>
             </div>
@@ -269,9 +257,10 @@
                     <table class="table table-sm table-reponsive table-hover text-uppercase">
                         <tbody class="table-dark border-0">
                             <tr style="font-weight:bold; font-size: 0.8rem;">
-                                <td class="border-bottom border-top-0" >sku&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                <td class="border-bottom border-top-0" >sku&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                <td class="border-bottom border-top-0" >apparel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                 <td class="border-bottom border-top-0" >mtr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                <td class="border-bottom border-top-0" >mrp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                <td class="border-bottom border-top-0" >rate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                 <td class="border-bottom border-top-0" >amt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                 <td class="border-bottom border-top-0" >disc&nbsp;%</td>
                                 <td class="border-bottom border-top-0" >disc&nbsp;amt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -284,7 +273,7 @@
                                 <td class="border-bottom border-top-0" >igst&nbsp;amt&nbsp;</td>
                                 <td class="border-bottom border-top-0" >total&nbsp;amt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                 <td class="border-bottom border-top-0" >description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                <td class="border-bottom border-top-0" ><?php echo ($_SESSION['branch_default'] == 1) ? 'measurement' : 'actions'; ?></td>
+                                <td class="border-bottom border-top-0" >actions</td>
                             </tr>
                         </tbody>
                         <tbody id="sku_transaction_wrapper" style="font-weight: bold; font-size: 0.8rem;"></tbody>

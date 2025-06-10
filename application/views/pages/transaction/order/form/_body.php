@@ -3,7 +3,6 @@
     $id             = empty($master_data) ? 0 : $master_data[0]['om_id'];
     $uuid           = empty($master_data) ? $om_uuid : $master_data[0]['om_uuid'];
     $tabindex       = 1;
-
     $bill_type      = (!empty($master_data) && ($master_data[0]['om_bill_type'] == 0))  ? '' : 'checked';
     $gst_type       = (!empty($master_data) && ($master_data[0]['om_gst_type'] == 1))  ? 1 : 0;
 ?>
@@ -52,7 +51,7 @@
                                             name="om_entry_no" 
                                             value="<?php echo empty($master_data) ? $om_entry_no : $master_data[0]['om_entry_no'] ?>" 
                                             placeholder=" " />   
-                                        <label class="text-uppercase">order no</label>
+                                        <label class="text-uppercase">entry no</label>
                                         <small class="form-text text-muted helper-text" id="om_entry_no_msg"></small>
                                     </div>
                                     <div class="col-12 col-sm-12 col-md-2 col-lg-2 floating-label">
@@ -66,109 +65,19 @@
                                             autocomplete="off"
                                             tabindex= "<?php echo $tabindex++; ?>"
                                         />   
-                                        <label class="text-uppercase">order date</label>
+                                        <label class="text-uppercase">entry date</label>
                                         <small class="form-text text-muted helper-text" id="om_entry_date_msg"></small>
                                     </div>
-                                    <div class="col-12 col-sm-12 col-md-2 col-lg-2 floating-label">
-                                        <input 
-                                            type="date" 
-                                            class="form-control floating-input" 
-                                            id="om_trial_date" 
-                                            name="om_trial_date" 
-                                            value="<?php echo empty($master_data) ? date('Y-m-d', strtotime('+7 DAYS')) : date('Y-m-d', strtotime($master_data[0]['om_trial_date'])) ?>" 
-                                            placeholder=" " 
-                                            autocomplete="off"
-                                            tabindex= "<?php echo $tabindex++; ?>"
-                                        />   
-                                        <label class="text-uppercase">trial date</label>
-                                        <small class="form-text text-muted helper-text" id="om_trial_date_msg"></small>
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-md-2 col-lg-2 floating-label">
-                                        <input 
-                                            type="date" 
-                                            class="form-control floating-input" 
-                                            id="om_delivery_date" 
-                                            name="om_delivery_date" 
-                                            value="<?php echo empty($master_data) ? date('Y-m-d', strtotime('+10 DAYS')) : date('Y-m-d', strtotime($master_data[0]['om_delivery_date'])) ?>" 
-                                            placeholder=" " 
-                                            autocomplete="off"
-                                            tabindex= "<?php echo $tabindex++; ?>"
-                                        />   
-                                        <label class="text-uppercase">delivery date&nbsp;<span class="text-danger">*</span></label>
-                                        <small class="form-text text-muted helper-text" id="om_delivery_date_msg"></small>
-                                    </div>
-                                   
+                                  
                                     <div class="col-12 col-sm-12 col-md-3 col-lg-3 floating-label">
-                                        <p class="text-uppercase">billing&nbsp;<span class="text-danger">*</span>
+                                        <p class="text-uppercase">company&nbsp;<span class="text-danger">*</span>
                                             <?php if(empty($master_data)): ?>
                                                 <?php if(in_array('add', $customer_action)): ?>
                                                     <span>
                                                         <a
                                                             data-toggle="tooltip"
                                                             data-placement="top"
-                                                            title="ADD CLIENT"
-                                                            style="cursor: pointer;"
-                                                            onclick='customer_popup(<?php echo json_encode(["field" => "om_billing_id"]) ?>)'
-                                                        ><i class="fa fa-plus"></i></a>
-                                                    </span>
-                                                <?php endif; ?>
-                                            <?php endif; ?>
-
-                                        </p>
-                                        <select 
-                                            class="form-control floating-select" 
-                                            id="om_billing_id" 
-                                            name="om_billing_id" 
-                                            placeholder=" " 
-                                            tabindex= "<?php echo $tabindex++; ?>"
-                                            onchange="validate_dropdown(this)" 
-                                            <?php echo (!empty($master_data) && $master_data[0]['isExist']) ? 'disabled="disabled"' : ''; ?>
-                                        >
-                                            <?php if(!empty($master_data) && !empty($master_data[0]['om_billing_id'])): ?>
-                                                <option value="<?php echo $master_data[0]['om_billing_id'] ?>" selected>
-                                                    <?php echo $master_data[0]['billing_name']; ?> 
-                                                </option>
-                                            <?php endif; ?>
-                                        </select>
-                                        <input 
-                                            type="hidden"
-                                            id="om_gst_type"
-                                            name="om_gst_type"
-                                            value="<?php echo $gst_type; ?>"
-                                        />
-                                        <small class="form-text text-muted helper-text" id="om_billing_id_msg"></small>
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-md-6 col-lg-2 d-none">
-                                        <button 
-                                            type="button" 
-                                            class="btn btn-md btn-primary" 
-                                            data-toggle="tooltip" 
-                                            data-placement="bottom" 
-                                            title="ADD MEASUREMENT"
-                                            onclick="get_body_measurement_data()"
-                                        ><i class="text-info fa fa-male"></i></button>
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 floating-label">
-                                        <textarea
-                                            class="form-control floating-textarea"
-                                            id="om_notes"
-                                            name="om_notes"
-                                            placeholder=" "
-                                            autocomplete="off"
-                                            tabindex= "<?php echo $tabindex++; ?>"
-                                        ><?php echo empty($master_data) ? '' : $master_data[0]['om_notes']; ?></textarea>
-                                        <label class="text-uppercase">notes</label>
-                                        <small class="form-text text-muted helper-text" id="om_notes_msg"></small>
-                                    </div> 
-                                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 floating-label">
-                                        <p class="text-uppercase">client&nbsp;<span class="text-danger">*</span>
-                                            <?php if(empty($master_data)): ?>
-                                                <?php if(in_array('add', $customer_action)): ?>
-                                                    <span>
-                                                        <a
-                                                            data-toggle="tooltip"
-                                                            data-placement="top"
-                                                            title="ADD CLIENT"
+                                                            title="ADD COMPANY"
                                                             style="cursor: pointer;"
                                                             onclick='customer_popup(<?php echo json_encode(["field" => "om_customer_id"]) ?>)'
                                                         ><i class="fa fa-plus"></i></a>
@@ -184,8 +93,7 @@
                                             placeholder=" " 
                                             tabindex= "<?php echo $tabindex++; ?>"
                                             onchange="validate_dropdown(this)" 
-                                            <?php echo (!empty($master_data) && $master_data[0]['isExist']) ? 'disabled="disabled"' : ''; ?>
-                                        >
+                                            <?php echo (!empty($master_data) && $master_data[0]['isExist']) ? 'disabled="disabled"' : ''; ?>>
                                             <?php if(!empty($master_data) && !empty($master_data[0]['om_customer_id'])): ?>
                                                 <option value="<?php echo $master_data[0]['om_customer_id'] ?>" selected>
                                                     <?php echo $master_data[0]['customer_name']; ?> 
@@ -193,46 +101,28 @@
                                             <?php endif; ?>
                                         </select>
                                         <small class="form-text text-muted helper-text" id="om_customer_id_msg"></small>
+                                         <input 
+                                            type="hidden"
+                                            id="om_gst_type"
+                                            name="om_gst_type"
+                                            value="<?php echo $gst_type; ?>"
+                                        />
+                                        <small class="form-text text-muted helper-text" id="om_billing_id_msg"></small>
                                     </div>
+
+                                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 floating-label">
+                                        <textarea
+                                            class="form-control floating-textarea"
+                                            id="om_notes"
+                                            name="om_notes"
+                                            placeholder=" "
+                                            autocomplete="off"
+                                            tabindex= "<?php echo $tabindex++; ?>"
+                                        ><?php echo empty($master_data) ? '' : $master_data[0]['om_notes']; ?></textarea>
+                                        <label class="text-uppercase">notes</label>
+                                        <small class="form-text text-muted helper-text" id="om_notes_msg"></small>
+                                    </div> 
                                   
-                                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 floating-label">
-                                        <p class="text-uppercase">Salesman&nbsp;<span class="text-danger">*</span></p>
-                                        <select 
-                                            class="form-control floating-select" 
-                                            id="om_salesman_id" 
-                                            name="om_salesman_id" 
-                                            placeholder=" " 
-                                            tabindex= "<?php echo $tabindex++; ?>"
-                                            onchange="validate_dropdown(this)" 
-                                            <?php echo (!empty($master_data) && $master_data[0]['isExist']) ? 'disabled="disabled"' : ''; ?>
-                                        >
-                                            <?php if(!empty($master_data) && !empty($master_data[0]['om_salesman_id'])): ?>
-                                                <option value="<?php echo $master_data[0]['om_salesman_id'] ?>" selected>
-                                                    <?php echo $master_data[0]['salesman_name']; ?> 
-                                                </option>
-                                            <?php endif; ?>
-                                        </select>
-                                        <small class="form-text text-muted helper-text" id="om_salesman_id_msg"></small>
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 floating-label">
-                                        <p class="text-uppercase">master&nbsp;name<span class="text-danger">*</span></p>
-                                        <select 
-                                            class="form-control floating-select" 
-                                            id="om_master_id" 
-                                            name="om_master_id" 
-                                            placeholder=" " 
-                                            tabindex= "<?php echo $tabindex++; ?>"
-                                            onchange="validate_dropdown(this)" 
-                                            <?php echo (!empty($master_data) && $master_data[0]['isExist']) ? 'disabled="disabled"' : ''; ?>
-                                        >
-                                            <?php if(!empty($master_data) && !empty($master_data[0]['om_master_id'])): ?>
-                                                <option value="<?php echo $master_data[0]['om_master_id'] ?>" selected>
-                                                    <?php echo $master_data[0]['master_name']; ?> 
-                                                </option>
-                                            <?php endif; ?>
-                                        </select>
-                                        <small class="form-text text-muted helper-text" id="om_master_id_msg"></small>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -241,22 +131,10 @@
                         <div class="card"> 
                             <div class="card-header text-uppercase">
                                 <ul class="nav nav-pills nav-fill nav-pills-secondary" id="pills-tab" role="tablist">
-                                    
-                                    <li class="nav-item">
+                                  
+                                  <li class="nav-item">
                                         <a 
                                             class="nav-link active text-uppercase" 
-                                            id="package_tab" 
-                                            data-toggle="tab"
-                                            href="#package_content" 
-                                            role="tab" 
-                                            aria-controls="package_content" 
-                                            aria-selected="false"
-                                            style="font-size:0.8rem;"
-                                        >package (<span id="transaction_count">0</span>)</a>
-                                    </li>
-                                  <!--   <li class="nav-item">
-                                        <a 
-                                            class="nav-link text-uppercase" 
                                             id="sku_tab" 
                                             data-toggle="tab"
                                             href="#sku_content" 
@@ -265,23 +143,18 @@
                                             aria-selected="true"
                                             style="font-size:0.8rem;"
                                         >sku (<span id="sku_transaction_count">0</span>)</a>
-                                    </li> -->
+                                    </li>
                                 </ul>
                             </div>
                             <div class="card-body p-0">
                                 <div class="tab-content" id="pills-tabContent">
                                     <div 
-                                        class="tab-pane fade" 
+                                        class="tab-pane fade show active" 
                                         id="sku_content" 
                                         role="tabpanel" 
                                         aria-labelledby="sku_tab"
                                     ><?php $this->load->view("pages/$menu/$sub_menu/form/sku", ['tabindex' => $tabindex]) ?></div>
-                                    <div 
-                                        class="tab-pane fade show active" 
-                                        id="package_content" 
-                                        role="tabpanel" 
-                                        aria-labelledby="package_tab"
-                                    ><?php $this->load->view("pages/$menu/$sub_menu/form/package", ['tabindex' => $tabindex]) ?></div>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -326,19 +199,7 @@
                                 <label class="text-uppercase">total qty</label>
                                 <small class="form-text text-muted helper-text" id="om_total_qty_msg"></small>
                             </div>
-                            <div class="col-12 col-sm-12 col-md-1 col-lg-1 floating-label">
-                                <input 
-                                    type="number" 
-                                    class="form-control floating-input" 
-                                    id="om_total_mtr" 
-                                    name="om_total_mtr" 
-                                    value="<?php echo empty($master_data) ? 0 : $master_data[0]['om_total_mtr'] ?>" 
-                                    placeholder=" " 
-                                    readonly="readonly" 
-                                />   
-                                <label class="text-uppercase">total mtr</label>
-                                <small class="form-text text-muted helper-text" id="om_total_mtr_msg"></small>
-                            </div>
+                           
                             <div class="col-12 col-sm-12 col-md-2 col-lg-2 floating-label">
                                 <input 
                                     type="number" 
@@ -471,44 +332,6 @@
                                 <label class="text-uppercase">net amt</label>
                                 <small class="form-text text-muted helper-text" id="om_total_amt_msg"></small>
                             </div>
-                            <div class="col-12 col-sm-12 col-md-2 col-lg-2 d-flex flex pl-0">
-                                <div class="floating-label" style="width: 100%;">
-                                    <input 
-                                        type="number" 
-                                        class="form-control floating-input font-weight-bold" 
-                                        id="om_advance_amt" 
-                                        name="om_advance_amt" 
-                                        value="<?php echo empty($master_data) ? 0 : $master_data[0]['om_advance_amt'] ?>" 
-                                        readonly
-                                    />   
-                                    <label class="text-uppercase">advance amt</label>
-                                    <small class="form-text text-muted helper-text" id="om_advance_amt_msg"></small>
-                                </div>
-                                <div>
-                                    <button
-                                        type="button"
-                                        class="btn btn-md btn-primary"
-                                        onclick="toggle_payment_mode_popup()"
-                                        data-toggle="tooltip" 
-                                        data-placement="bottom" 
-                                        title="PAYMENT MODE" 
-                                    ><i class="text-success fa fa-rupee"></i></button>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-2 col-lg-2 floating-label">
-                                <p class="text-uppercase">balance</p>
-                                <input 
-                                    type="number" 
-                                    class="form-control floating-input font-weight-bold" 
-                                    id="om_balance_amt" 
-                                    name="om_balance_amt" 
-                                    value="<?php echo empty($master_data) ? 0 : $master_data[0]['om_balance_amt'] ?>" 
-                                    placeholder=" " 
-                                    readonly
-                                    style="font-size: 30px;" 
-                                />   
-                                <small class="form-text text-muted helper-text" id="om_balance_amt_msg"></small>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -518,4 +341,3 @@
     </div>
 </div>
 <div class="right-panel-wrapper" id="payment_mode_wrapper"><?php $this->load->view('pages/component/panel/_right'); ?></div> 
-<div class="top-panel-wrapper" id="measurement_wrapper"><?php $this->load->view('pages/component/panel/_top'); ?></div>
